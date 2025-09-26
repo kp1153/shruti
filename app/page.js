@@ -9,7 +9,13 @@ async function getAllPosts() {
       | order(publishedAt desc)[0...10] {
         _id, 
         title, 
-        slug, 
+        slug,
+        mainImage {
+          asset->{
+            _id,
+            url
+          }
+        },
         publishedAt, 
         category->{name, slug}
       }

@@ -1,4 +1,4 @@
-import { client, urlFor } from "@/lib/sanity";
+import { client } from "@/lib/sanity";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -52,19 +52,17 @@ export default async function CategoryPage({ params }) {
             key={post._id}
             className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
-            {post.mainImage &&
-              post.mainImage.asset &&
-              post.mainImage.asset.url && (
-                <div className="relative w-full h-60">
-                  <Image
-                    src={post.mainImage.asset.url}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              )}
+            {post.mainImage?.asset?.url && (
+              <div className="w-full bg-gray-100 flex items-center justify-center">
+                <Image
+                  src={post.mainImage.asset.url}
+                  alt={post.title}
+                  width={400}
+                  height={250}
+                  className="object-contain"
+                />
+              </div>
+            )}
 
             <div className="p-6">
               <div className="flex items-center justify-between mb-3">

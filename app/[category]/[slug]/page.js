@@ -38,9 +38,7 @@ async function getPostBySlugAndCategory(slug, categorySlug) {
     return {
       ...post,
       mainImage: post.mainImage?.asset ? post.mainImage : null,
-      mainImageUrl: post.mainImage?.asset
-        ? urlFor(post.mainImage).width(1200).height(600).url()
-        : null,
+      mainImageUrl: post.mainImage?.asset ? urlFor(post.mainImage).url() : null,
       mainImageAlt: post.mainImage?.alt || post.title,
       mainImageCaption: post.mainImage?.caption || "",
     };
@@ -50,7 +48,7 @@ async function getPostBySlugAndCategory(slug, categorySlug) {
   }
 }
 
-// Custom components for PortableText
+// PortableText custom components
 const portableTextComponents = {
   block: {
     normal: ({ children }) => (
@@ -71,55 +69,18 @@ const portableTextComponents = {
       </blockquote>
     ),
   },
-  list: {
-    bullet: ({ children }) => (
-      <ul className="list-disc ml-6 mb-4 text-gray-800 space-y-2">
-        {children}
-      </ul>
-    ),
-    number: ({ children }) => (
-      <ol className="list-decimal ml-6 mb-4 text-gray-800 space-y-2">
-        {children}
-      </ol>
-    ),
-  },
-  listItem: {
-    bullet: ({ children }) => (
-      <li className="text-lg leading-relaxed">{children}</li>
-    ),
-    number: ({ children }) => (
-      <li className="text-lg leading-relaxed">{children}</li>
-    ),
-  },
-  marks: {
-    strong: ({ children }) => (
-      <strong className="font-bold text-gray-900">{children}</strong>
-    ),
-    em: ({ children }) => <em className="italic">{children}</em>,
-    link: ({ value, children }) => (
-      <a
-        href={value.href}
-        className="text-blue-600 hover:text-blue-800 underline font-medium"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {children}
-      </a>
-    ),
-  },
   types: {
     image: ({ value }) => (
-      <div className="my-8">
-        <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg">
-          <Image
-            src={urlFor(value).width(1200).height(600).url()}
-            alt={value.alt || "Article image"}
-            fill
-            className="object-contain bg-gray-100"
-          />
-        </div>
+      <div className="my-8 flex justify-center">
+        <Image
+          src={urlFor(value).url()}
+          alt={value.alt || "Article image"}
+          width={1000}
+          height={600}
+          className="object-contain max-h-[80vh] w-auto rounded-lg bg-gray-100 shadow"
+        />
         {value.caption && (
-          <p className="text-sm text-gray-600 text-center mt-2 italic">
+          <p className="text-sm text-gray-600 text-center mt-2 italic w-full">
             {value.caption}
           </p>
         )}
@@ -135,16 +96,10 @@ export default async function PostPage({ params }) {
   const safeSlug = decodeURIComponent(slug);
 
   const validCategories = ["events", "fariyaad", "manavadhikar", "vividh"];
-
-  if (!validCategories.includes(safeCategory)) {
-    notFound();
-  }
+  if (!validCategories.includes(safeCategory)) notFound();
 
   const post = await getPostBySlugAndCategory(safeSlug, safeCategory);
-
-  if (!post) {
-    notFound();
-  }
+  if (!post) notFound();
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -183,9 +138,9 @@ export default async function PostPage({ params }) {
 
         {/* Date */}
         <div className="flex items-center justify-end mb-6">
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span className="font-medium">{formatDate(post.publishedAt)}</span>
-          </div>
+          <span className="text-sm text-gray-600 font-medium">
+            {formatDate(post.publishedAt)}
+          </span>
         </div>
 
         {/* Title */}
@@ -195,19 +150,19 @@ export default async function PostPage({ params }) {
 
         {/* Main Image */}
         {post.mainImageUrl && (
-          <div className="w-full mb-8 rounded-xl overflow-hidden shadow-lg">
+          <div className="w-full mb-8 flex justify-center">
             <Image
               src={post.mainImageUrl}
               alt={post.mainImageAlt}
               width={1200}
-              height={600}
-              className="object-contain w-full max-h-[80vh] bg-gray-100"
+              height={800}
+              className="object-contain max-h-[80vh] w-auto rounded-xl bg-gray-100 shadow-lg"
               priority
             />
           </div>
         )}
 
-        {/* Image Caption */}
+        {/* Caption */}
         {post.mainImageCaption && (
           <p className="text-center text-sm text-gray-600 mb-8 italic -mt-4">
             {post.mainImageCaption}
@@ -216,12 +171,10 @@ export default async function PostPage({ params }) {
 
         {/* Content */}
         <article className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <div className="prose prose-lg max-w-none">
-            <PortableText
-              value={post.content}
-              components={portableTextComponents}
-            />
-          </div>
+          <PortableText
+            value={post.content}
+            components={portableTextComponents}
+          />
         </article>
 
         {/* Back Navigation */}
@@ -232,25 +185,11 @@ export default async function PostPage({ params }) {
           >
             ← {categoryNames[category]} में वापस
           </Link>
-
           <Link
             href="/"
             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
           >
             होम पेज
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
           </Link>
         </div>
       </div>

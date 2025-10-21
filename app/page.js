@@ -43,7 +43,7 @@ export default async function HomePage() {
   const posts = await getAllPosts();
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex pt-32">
       {/* Hero Section - 70% Width */}
       <div className="w-[70%] border-r border-gray-200">
         <HeroSection />
@@ -53,7 +53,7 @@ export default async function HomePage() {
       <div className="w-[30%] bg-white">
         <div className="h-screen overflow-y-auto p-6">
           <div className="sticky top-0 bg-white pb-4 mb-4 border-b border-gray-200">
-            <h2 className="text-xl font-bold text-gray-900">ताजा समाचार</h2>
+            <h2 className="text-xl font-bold text-gray-900">ताज़ा समाचार</h2>
           </div>
 
           {posts.length > 0 ? (

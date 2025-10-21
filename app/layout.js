@@ -3,24 +3,24 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 export const metadata = {
-  title: "Lenin Raghuvanshi - Human Rights Activist | Janmitra Nyas",
+  title: "श्रुति नागवंशी - मानवाधिकार कार्यकर्ता | जन मित्र न्यास",
   description:
-    "Founder & Director of Janmitra Nyas NGO. Social justice advocate, human rights defender, and community development leader working for peace and equality.",
+    "जन मित्र न्यास की संस्थापक एवं प्रबंध न्यासी। सामाजिक न्याय, मानवाधिकार संरक्षण, दलित अधिकार और महिला सुरक्षा के लिए समर्पित समाजसेविका।",
   keywords:
-    "Lenin Raghuvanshi, Janmitra Nyas, human rights, social justice, NGO, peace activist, community development",
-  authors: [{ name: "Lenin Raghuvanshi" }],
+    "श्रुति नागवंशी, Shruti Nagvanshi, जन मित्र न्यास, Janmitra Nyas, मानवाधिकार, human rights, सामाजिक न्याय, social justice, दलित अधिकार, महिला सुरक्षा, NGO, PVCHR, वाराणसी",
+  authors: [{ name: "श्रुति नागवंशी" }],
   openGraph: {
-    title: "Lenin Raghuvanshi - Human Rights Activist",
+    title: "श्रुति नागवंशी - मानवाधिकार कार्यकर्ता",
     description:
-      "Founder & Director of Janmitra Nyas NGO working for social justice and human rights.",
+      "जन मित्र न्यास की संस्थापक एवं प्रबंध न्यासी। सामाजिक न्याय और मानवाधिकार संरक्षण के लिए कार्यरत।",
     type: "website",
-    locale: "en_US",
+    locale: "hi_IN",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="hi">
       <body>
         <div className="min-h-screen flex flex-col">
           <Navbar />

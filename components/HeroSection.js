@@ -1,21 +1,84 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 const HeroSection = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 10;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
   return (
-    <div className="h-screen bg-gradient-to-br from-slate-50 to-white p-6 overflow-y-auto">
-      <div className="max-w-full mx-auto h-full flex flex-col">
-        {/* Main Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            श्रुति नागवंशी
-          </h1>
-          <p className="text-xl text-gray-600 font-medium">
-            मानवाधिकार कार्यकर्ता एवं समाजसेविका
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white p-6">
+      <div className="max-w-full mx-auto">
+        {/* Image Slider */}
+        <div className="relative w-full h-[70vh] mb-6 bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+          {[...Array(totalSlides)].map((_, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                currentSlide === index ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Image
+                src={`/images/${index + 1}.jpeg`}
+                alt={`Slide ${index + 1}`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            </div>
+          ))}
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all"
+          >
+            ←
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all"
+          >
+            →
+          </button>
+
+          {/* Dots Navigation */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {[...Array(totalSlides)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  currentSlide === index
+                    ? "bg-white w-6"
+                    : "bg-white/50 hover:bg-white/80"
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Content Grid */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* Personal Background */}
           <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-100 pb-2">
@@ -58,7 +121,7 @@ const HeroSection = () => {
               </div>
               <div>
                 <p className="font-medium text-gray-900">
-                  सविता बाई फुले महिला मंच
+                  सवित्रा बाई फुले महिला मंच
                 </p>
                 <p className="text-xs text-gray-600">
                   महिला अधिकार संरक्षण हेतु
@@ -96,7 +159,7 @@ const HeroSection = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-6 bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-50 rounded-lg p-4">
           <div className="text-center">
             <h3 className="text-base font-semibold text-gray-900 mb-2">
               प्रमुख उपलब्धियां
@@ -112,7 +175,7 @@ const HeroSection = () => {
               </div>
               <div>
                 <p className="font-medium">मुसहर बच्चों का न्याय</p>
-                <p className="text-xs">उच्च न्यायालय द्वारा स्वत: संज्ञान</p>
+                <p className="text-xs">उच्च न्यायालय द्वारा स्वतः संज्ञान</p>
               </div>
             </div>
           </div>
